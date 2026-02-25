@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 
 from .models import User
+from .models import RefreshToken
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 
 
@@ -30,3 +31,10 @@ class UserAdmin(DjangoUserAdmin):
 
 	search_fields = ('email', 'first_name', 'last_name')
 	ordering = ('email',)
+
+
+@admin.register(RefreshToken)
+class RefreshTokenAdmin(admin.ModelAdmin):
+	list_display = ('user', 'token', 'revoked', 'expires_at', 'created_at')
+	list_filter = ('revoked',)
+	search_fields = ('user__email', 'token')

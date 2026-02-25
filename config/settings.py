@@ -128,6 +128,10 @@ AUTH_USER_MODEL = 'users.User'
 # Django REST Framework + drf-spectacular settings
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    # Use the custom JWT authentication class by default for the API.
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'users.authentication.JWTAuthentication',
+    ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
     'DEFAULT_FILTER_BACKENDS': [
@@ -142,3 +146,12 @@ SPECTACULAR_SETTINGS = {
     'DESCRIPTION': 'API for MyProject (Products)',
     'VERSION': '1.0.0',
 }
+
+# JWT settings (custom implementation - HS256)
+# In production, keep a separate secure secret (e.g. env var) and rotate it.
+JWT_SECRET = SECRET_KEY
+JWT_ALGORITHM = 'HS256'
+# Access tokens should be short-lived (seconds)
+JWT_ACCESS_TOKEN_LIFETIME = 60 * 5  # 5 minutes
+# Refresh tokens live longer and are stored server-side so they can be revoked
+JWT_REFRESH_TOKEN_LIFETIME = 60 * 60 * 24 * 7  # 7 days

@@ -24,6 +24,8 @@ urlpatterns = [
 
     # API
     path('api/', include('products.urls')),
+    # Authentication (custom JWT)
+    path('api/auth/', include('users.urls')),
 
     # Schema & Docs
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
